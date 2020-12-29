@@ -2,11 +2,16 @@ import React, { FC, Fragment, useState, memo } from 'react'
 import Head from 'next/head'
 import Link from 'next/link'
 import styled from 'styled-components'
-import { Flex, TextField } from '../../shared/components'
+import {
+  Flex,
+  TextField,
+  TextFieldLabel,
+  TextFieldInput
+} from '../../shared/components'
 
 // Component
 const Landing: FC = () => {
-  const [twitchUsername, setTwitchUsername] = useState<string>('')
+  const [twitchUsername, setTwitchUsername] = useState<string>('testing')
   const [twitchToken, setTwitchToken] = useState<string>('')
 
   const handleTwitchUsernameChange = (event) => {
@@ -28,16 +33,22 @@ const Landing: FC = () => {
           <h1>Twitch FireTrash</h1>
           <p>{twitchUsername}</p>
           <p>{twitchToken}</p>
-          <TextField
-            name='Twitch Username'
-            value={twitchUsername}
-            onChange={handleTwitchUsernameChange}
-          />
-          <TextField
-            name='Twitch Token'
-            value={twitchToken}
-            onChange={handleTwitchTokenChange}
-          />
+          <TextField >
+            <TextFieldLabel hasError>Twitch Username</TextFieldLabel>
+            <TextFieldInput
+              name='twitch_username_textfield'
+              value={twitchUsername}
+              onChange={handleTwitchUsernameChange}
+            />
+          </TextField>
+          <TextField width='600px'>
+            <TextFieldLabel>Twitch Token</TextFieldLabel>
+            <TextFieldInput
+              name='twitch_token_textfield'
+              value={twitchToken}
+              onChange={handleTwitchTokenChange}
+            />
+          </TextField>
           <Link href={`widget/${twitchUsername}/${twitchToken}`}>
             Go to extension
           </Link>
