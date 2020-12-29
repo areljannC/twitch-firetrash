@@ -1,2 +1,2 @@
 export { Flex } from './Flex'
-export { TextField } from './TextField'
+export * from './TextField'
