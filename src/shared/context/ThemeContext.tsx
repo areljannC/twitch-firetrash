@@ -56,6 +56,12 @@ export const ThemeContextProvider: FC<ThemeContextProviderPropsType> = ({ childr
 // Styles
 const GlobalStyle = createGlobalStyle`
   ${reset}
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
 `
 
 // Display Name

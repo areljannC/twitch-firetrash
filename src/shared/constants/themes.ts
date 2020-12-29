@@ -36,6 +36,9 @@ const space: ['0px', '4px', '8px', '16px', '32px', '64px', '128px', '256px', '51
   '512px'
 ]
 
+const borderWidth  = '2px'
+const borderRadius = '4px'
+
 // Breakpoints are based on this article:
 // https://jsramblings.com/how-to-use-media-queries-with-styled-components/
 const breakpoints = {
@@ -55,6 +58,8 @@ const baseTheme = {
   fontWeights,
   lineHeights,
   space,
+  borderWidth,
+  borderRadius,
   breakpoints
 }
 

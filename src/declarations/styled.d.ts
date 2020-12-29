@@ -27,6 +27,9 @@ declare module 'styled-components' {
 
     space: ['0px', '4px', '8px', '16px', '32px', '64px', '128px', '256px', '512px']
 
+    borderWidth: string
+    borderRadius: string
+
     breakpoints: {
       mobileSmall: string
       mobileMedium: string
