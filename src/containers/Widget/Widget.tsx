@@ -35,4 +35,4 @@ const WidgetWrapper = styled.main`
 Widget.displayName = `Widget`
 WidgetWrapper.displayName = `WidgetWrapper`
 
-export default memo<WidgetProps>(Widget)
+export default memo(Widget)

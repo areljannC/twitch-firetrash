@@ -22,4 +22,4 @@ const App: FC<AppProps> = ({ Component, pageProps }) => (
 // Display Name
 App.displayName = `App`
 
-export default memo<AppProps>(App)
+export default memo(App)

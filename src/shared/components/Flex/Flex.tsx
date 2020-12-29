@@ -53,4 +53,4 @@ const FlexWrapper = styled.div<FlexWrapperProps>`
 Flex.displayName = `Flex`
 FlexWrapper.displayName = `FlexWrapper`
 
-export default memo<FlexProps>(Flex)
+export default memo(Flex)
