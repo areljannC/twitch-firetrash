@@ -1,4 +1,4 @@
-import React, { FC, ReactNode, memo } from 'react'
+import React, { FC, ReactNode, ChangeEvent, memo } from 'react'
 import styled from 'styled-components'
 
 // Types
@@ -16,7 +16,7 @@ type TextFieldInputProps = {
   name: string
   value: string
   placeholder?: string
-  onChange: any
+  onChange?: (event: ChangeEvent<HTMLInputElement>) => void
   hasError?: boolean
 }
 
@@ -29,16 +29,13 @@ type TextFieldLabelWrapperProps = {
 }
 
 type TextFieldInputWrapperProps = {
-  placeholder: string
   hasError: boolean
 }
 
 // Components
-const TextField: FC<TextFieldProps> = memo(
-  ({ width = 'auto', children }) => (
-    <TextFieldWrapper width={width}>{children}</TextFieldWrapper>
-  )
-)
+const TextField: FC<TextFieldProps> = memo(({ width = 'auto', children }) => (
+  <TextFieldWrapper width={width}>{children}</TextFieldWrapper>
+))
 
 const TextFieldLabel: FC<TextFieldLabelProps> = memo(
   ({ children, hasError = false }) => (
@@ -49,13 +46,7 @@ const TextFieldLabel: FC<TextFieldLabelProps> = memo(
 )
 
 const TextFieldInput: FC<TextFieldInputProps> = memo(
-  ({
-    name,
-    value,
-    placeholder,
-    onChange,
-    hasError = false
-  }) => (
+  ({ name, value, placeholder, onChange = () => {}, hasError = false }) => (
     <TextFieldInputWrapper
       type='text'
       name={name}
@@ -68,7 +59,7 @@ const TextFieldInput: FC<TextFieldInputProps> = memo(
 )
 
 // Styles
-const TextFieldWrapper = styled.form<TextFieldWrapperProps>`
+const TextFieldWrapper = styled.div<TextFieldWrapperProps>`
   width: ${({ width }) => width};
   margin-bottom: ${({ theme }) => theme.space[3]};
   display: flex;
@@ -80,7 +71,8 @@ const TextFieldLabelWrapper = styled.label<TextFieldLabelWrapperProps>`
   margin-bottom: ${({ theme }) => theme.space[1]};
   font-family: ${({ theme }) => theme.font};
   font-size: ${({ theme }) => theme.fontSizes[1]};
-  color: ${({ hasError, theme }) => hasError ? theme.colors.secondary : theme.colors.gray};
+  color: ${({ hasError, theme }) =>
+    hasError ? theme.colors.secondary : theme.colors.text};
 `
 
 const TextFieldInputWrapper = styled.input<TextFieldInputWrapperProps>`
