@@ -1,26 +1,48 @@
-import React, { FC, Fragment, useState, memo } from 'react'
+import React, {
+  FC,
+  Fragment,
+  useState,
+  ChangeEvent,
+  MouseEvent,
+  memo
+} from 'react'
 import Head from 'next/head'
-import Link from 'next/link'
+import { useRouter } from 'next/router'
 import styled from 'styled-components'
 import {
   Flex,
+  Header,
   TextField,
   TextFieldLabel,
-  TextFieldInput
+  TextFieldInput,
+  Button
 } from '../../shared/components'
+import { isValidTwitchUsername } from '../../shared/utils'
 
 // Component
 const Landing: FC = () => {
-  const [twitchUsername, setTwitchUsername] = useState<string>('testing')
+  const router = useRouter()
+  const [twitchUsername, setTwitchUsername] = useState<string>('')
   const [twitchToken, setTwitchToken] = useState<string>('')
+  const [hasErrorTwitchUsername, setHasErrorTwitchUsername] = useState<boolean>(
+    false
+  )
 
-  const handleTwitchUsernameChange = (event) => {
-    setTwitchUsername(event.target.value)
+  const handleTwitchUsernameChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const username = event.target.value
+    isValidTwitchUsername(username)
+      ? setHasErrorTwitchUsername(false)
+      : setHasErrorTwitchUsername(true)
+    setTwitchUsername(username)
   }
 
-  const handleTwitchTokenChange = (event) => {
-    setTwitchToken(event.target.value)
+  const handleTwitchTokenChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const token = event.target.value
+    setTwitchToken(token)
   }
+
+  const handleGoToWidgetUsernameTokenPage = () =>
+    router.push(`widget/${twitchUsername}/${twitchToken}`)
 
   return (
     <Fragment>
@@ -30,28 +52,32 @@ const Landing: FC = () => {
       </Head>
       <LandingWrapper>
         <Flex flexDirection='column'>
-          <h1>Twitch FireTrash</h1>
-          <p>{twitchUsername}</p>
-          <p>{twitchToken}</p>
-          <TextField >
-            <TextFieldLabel hasError>Twitch Username</TextFieldLabel>
+          <Header>Twitch FireTrash</Header>
+          <TextField>
+            <TextFieldLabel hasError={hasErrorTwitchUsername}>
+              Twitch Username
+            </TextFieldLabel>
             <TextFieldInput
               name='twitch_username_textfield'
               value={twitchUsername}
               onChange={handleTwitchUsernameChange}
+              hasError={hasErrorTwitchUsername}
             />
           </TextField>
-          <TextField width='600px'>
-            <TextFieldLabel>Twitch Token</TextFieldLabel>
+          <TextField>
+            <TextFieldLabel>Twitch OAuth Token</TextFieldLabel>
             <TextFieldInput
               name='twitch_token_textfield'
               value={twitchToken}
               onChange={handleTwitchTokenChange}
             />
           </TextField>
-          <Link href={`widget/${twitchUsername}/${twitchToken}`}>
+          <Button
+            onClick={handleGoToWidgetUsernameTokenPage}
+            disabled={hasErrorTwitchUsername}
+          >
             Go to extension
-          </Link>
+          </Button>
         </Flex>
       </LandingWrapper>
     </Fragment>
@@ -62,6 +88,7 @@ const Landing: FC = () => {
 const LandingWrapper = styled.main`
   width: 100vw;
   height: 100vh;
+  background-color: ${({ theme }) => theme.colors.background};
 `
 
 // Display Names
