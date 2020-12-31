@@ -19,7 +19,7 @@
     "jsx": "preserve"
   },
   "include": [
-    "src/declarations/*.ts",
+    "src/modules/*.ts",
     "**/*.ts",
     "**/*.tsx"
   ],
