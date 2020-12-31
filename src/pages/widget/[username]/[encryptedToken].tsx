@@ -1,17 +1,27 @@
 import React, { FC, memo } from 'react'
-import { useRouter } from 'next/router'
 import { Widget } from '../../../containers'
 
-// Component
-const WidgetUsernameToken: FC = () => {
-  const router = useRouter()
-  const username = router.query.username as string
-  const encryptedToken = router.query.encryptedToken as string
-
-  return (
-    <Widget username={username} encryptedToken={encryptedToken} />
-  )
+// Types
+type WidgetUsernameToken = {
+  username: string
+  encryptedToken: string
 }
+
+// Server Side Props
+export const getServerSideProps = async ({ params }) => {
+  const username: string = params.username
+  const encryptedToken: string = params.encryptedToken
+
+  return {
+    props: { username, encryptedToken }
+  }
+}
+
+// Component
+const WidgetUsernameToken: FC<WidgetUsernameToken> = ({
+  username,
+  encryptedToken
+}) => <Widget username={username} encryptedToken={encryptedToken} />
 
 // Display Names
 WidgetUsernameToken.displayName = `WidgetUsernameToken`
