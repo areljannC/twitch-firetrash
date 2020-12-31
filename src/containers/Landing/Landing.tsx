@@ -1,11 +1,4 @@
-import React, {
-  FC,
-  Fragment,
-  useState,
-  ChangeEvent,
-  MouseEvent,
-  memo
-} from 'react'
+import React, { FC, Fragment, useState, ChangeEvent, memo } from 'react'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import styled from 'styled-components'
@@ -17,7 +10,7 @@ import {
   TextFieldInput,
   Button
 } from '../../shared/components'
-import { isValidTwitchUsername } from '../../shared/utils'
+import { isValidTwitchUsername, encrypt, encode } from '../../shared/utils'
 
 // Component
 const Landing: FC = () => {
@@ -42,7 +35,7 @@ const Landing: FC = () => {
   }
 
   const handleGoToWidgetUsernameTokenPage = () =>
-    router.push(`widget/${twitchUsername}/${twitchToken}`)
+    router.push(`widget/${twitchUsername}/${encode(encrypt(twitchToken))}`)
 
   return (
     <Fragment>

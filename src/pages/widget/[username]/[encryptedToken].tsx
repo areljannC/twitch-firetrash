@@ -6,12 +6,14 @@ import { Widget } from '../../../containers'
 const WidgetUsernameToken: FC = () => {
   const router = useRouter()
   const username = router.query.username as string
-  const token = router.query.token as string
+  const encryptedToken = router.query.encryptedToken as string
 
-  return <Widget username={username} token={token} />
+  return (
+    <Widget username={username} encryptedToken={encryptedToken} />
+  )
 }
 
-// Display Name
+// Display Names
 WidgetUsernameToken.displayName = `WidgetUsernameToken`
 
 export default memo(WidgetUsernameToken)
