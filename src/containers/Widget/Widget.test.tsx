@@ -8,14 +8,12 @@ const testUsername = 'test_username'
 const testToken = 'test_token'
 
 describe('<Landing />', () => {
-  test(`should render a <div> username of ${testUsername} and a token of ${testToken}`, () => {
+  test(`should render a <div>`, () => {
     const { container, getByText } = render(
       <ThemeContextProvider>
-        <Widget username={testUsername} token={testToken} />
+        <Widget username={testUsername} encryptedToken={testToken} />
       </ThemeContextProvider>
     )
     expect(container.querySelector('div')).toBeInTheDocument()
-    expect(getByText(`Username: ${testUsername}`)).toBeInTheDocument()
-    expect(getByText(`Token: ${testToken}`)).toBeInTheDocument()
   })
 })
