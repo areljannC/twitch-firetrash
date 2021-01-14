@@ -14,17 +14,17 @@ type WidgetProps = {
 }
 
 // Constants
-const ICON_WIDTH = 200
-const ICON_HEIGHT = 200
+const ICON_WIDTH = 300
+const ICON_HEIGHT = 300
 const ICON_SCALE_CHANGE = 0.2
 const ICON_ANIMATION_DURATION = 0.3
-const VOTE_TALLY_TOTAL_LIMIT = 5
+const VOTE_TALLY_TOTAL_LIMIT = 10
 
 // Component
 const Widget: FC<WidgetProps> = ({ username, encryptedToken }) => {
   const tmiClient = useRef(null)
-  const [fireIconScale, setFireIconScale] = useState(1)
-  const [trashIconScale, setTrashIconScale] = useState(1)
+  const [fireIconScale, setFireIconScale] = useState(0.5)
+  const [trashIconScale, setTrashIconScale] = useState(0.5)
   const [animateFire, setAnimateFire] = useState(false)
   const [animateTrash, setAnimateTrash] = useState(false)
   const voteTally = useRef(
@@ -67,8 +67,8 @@ const Widget: FC<WidgetProps> = ({ username, encryptedToken }) => {
           voteTally.current.set('fire', voteTally.current.get('fire') + 1)
         }
 
-        setFireIconScale(1 + voteTally.current.get('fire') / voteTally.current.get('total'))
-        setTrashIconScale(1 - voteTally.current.get('trash') / voteTally.current.get('total'))
+        setFireIconScale(voteTally.current.get('fire') / voteTally.current.get('total'))
+        setTrashIconScale(voteTally.current.get('trash') / voteTally.current.get('total'))
         setAnimateFire(true)
         setAnimateTrash(true)
         setTimeout(() => {
@@ -88,8 +88,8 @@ const Widget: FC<WidgetProps> = ({ username, encryptedToken }) => {
           voteTally.current.set('trash', voteTally.current.get('trash') + 1)
         }
 
-        setTrashIconScale(1 + voteTally.current.get('trash') / voteTally.current.get('total'))
-        setFireIconScale(1 - voteTally.current.get('fire') / voteTally.current.get('total'))
+        setTrashIconScale(voteTally.current.get('trash') / voteTally.current.get('total'))
+        setFireIconScale(voteTally.current.get('fire') / voteTally.current.get('total'))
         setAnimateTrash(true)
         setAnimateFire(true)
         setTimeout(() => {
@@ -113,8 +113,8 @@ const Widget: FC<WidgetProps> = ({ username, encryptedToken }) => {
         <meta name='description' content='Twitch TrashFire' />
       </Head>
       <WidgetWrapper>
-        <Flex flexDirection='column'>
-          <motion.div
+        <Flex>
+          <AnimatedDiv
             animate={animateFire ? 'animated' : 'normal'}
             variants={{
               animated: {
@@ -128,8 +128,8 @@ const Widget: FC<WidgetProps> = ({ username, encryptedToken }) => {
             }}
           >
             <Image alt='fire icon' src='/assets/fire.png' width={`${ICON_WIDTH}px`} height={`${ICON_HEIGHT}px`} />
-          </motion.div>
-          <motion.div
+          </AnimatedDiv>
+          <AnimatedDiv
             animate={animateTrash ? 'animated' : 'normal'}
             variants={{
               animated: {
@@ -143,7 +143,7 @@ const Widget: FC<WidgetProps> = ({ username, encryptedToken }) => {
             }}
           >
             <Image alt='trash icon' src='/assets/trash.png' width={`${ICON_WIDTH}px`} height={`${ICON_HEIGHT}px`} />
-          </motion.div>
+          </AnimatedDiv>
         </Flex>
       </WidgetWrapper>
     </Fragment>
@@ -154,6 +154,11 @@ const Widget: FC<WidgetProps> = ({ username, encryptedToken }) => {
 const WidgetWrapper = styled.main`
   width: 100vw;
   height: 100vh;
+`
+
+const AnimatedDiv = styled(motion.div)`
+  width: fit-content;
+  height: fit-content;
 `
 
 // Display Names
